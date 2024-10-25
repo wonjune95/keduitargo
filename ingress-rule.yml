@@ -1,0 +1,41 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-portal
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+    nginx.ingress.kubernetes.io/use-regex: "true"   # 정규 표현식을 사용
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: www.test.com
+    http:
+      paths:
+      - pathType: Prefix
+        path: /shop(/|$)
+        backend:
+          service:
+            name: svc-shop
+            port: 
+              number: 80
+      - pathType: Prefix
+        path: /blog(/|$)
+        backend:
+          service:
+            name: svc-blog
+            port: 
+              number: 80
+      - pathType: Prefix
+        path: /?$
+        backend:
+          service:
+            name: svc-main
+            port: 
+              number: 80
+      - pathType: Prefix
+        path: /*
+        backend:
+          service:
+            name: svc-not
+            port: 
+              number: 80

@@ -1,0 +1,37 @@
+---
+# svc-main
+apiVersion: v1
+kind: Service
+metadata:
+  name: svc-main
+spec:
+  selector:
+    app: main
+  ports:
+  - port: 80
+    targetPort: 80
+---
+# deploy-main
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: main
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: main
+  template:
+    metadata:
+      labels:
+        app: main
+    spec:
+      containers:
+      - name: myapp
+        image: jiho9898/portal:main
+        resources:
+          limits:
+            memory: "64Mi"
+            cpu: "250m"
+        ports:
+        - containerPort: 80

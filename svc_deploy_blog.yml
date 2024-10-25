@@ -1,0 +1,37 @@
+---
+# svc-blog
+apiVersion: v1
+kind: Service
+metadata:
+  name: svc-blog
+spec:
+  selector:
+    app: blog
+  ports:
+  - port: 80
+    targetPort: 80
+---
+# deploy-blog
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: blog
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: blog
+  template:
+    metadata:
+      labels:
+        app: blog
+    spec:
+      containers:
+      - name: myapp
+        image: jiho9898/portal:blog
+        resources:
+          limits:
+            memory: "64Mi"
+            cpu: "250m"
+        ports:
+        - containerPort: 80

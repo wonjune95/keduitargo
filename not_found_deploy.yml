@@ -1,0 +1,37 @@
+---
+# svc-shop
+apiVersion: v1
+kind: Service
+metadata:
+  name: svc-not
+spec:
+  selector:
+    app: not
+  ports:
+  - port: 80
+    targetPort: 80
+---
+# not_found
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: not
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: not
+  template:
+    metadata:
+      labels:
+        app: not
+    spec:
+      containers:
+      - name: myapp
+        image: wonjune95/portal:not
+        resources:
+          limits:
+            memory: "64Mi"
+            cpu: "250m"
+        ports:
+        - containerPort: 80
