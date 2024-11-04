@@ -1,0 +1,33 @@
+---
+# svc-argo
+apiVersion: v1
+kind: Service
+metadata:
+  name: svc-argo
+spec:
+  selector:
+    app: argo
+  ports:
+  - port: 80
+    targetPort: 80
+---
+# deploy-argo
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: argo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: argo
+  template:
+    metadata:
+      labels:
+        app: argo
+    spec:
+      containers:
+      - name: myargo
+        image: wonjune95/keduitargo:0913
+        ports:
+        - containerPort: 80
